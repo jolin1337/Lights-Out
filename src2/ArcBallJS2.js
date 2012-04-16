@@ -166,6 +166,13 @@ function mousePressed(mouse) {
 		ZOOM_FLAG=true;
 		zo_start = new Vector(mouse.clientX,mouse.clientY,1);
 	}
+	else{
+
+		for( var i in scene.objects )
+			if(!scene.objects[i].activeObject)
+				scene.objects[i].fillCol = col;
+		render();
+	}
 	HAS_DRAGED=false;
 	return false;
 }
@@ -321,7 +328,7 @@ function init(){
 	objt[3] = new Cube(0,0,150,40, new color(0,0,255), new color(255));*/
 
 	//scene.addObject(new BeizerCurve(0,0,0));
-	var l = lenth, scale = 0.5,objScale=0.6;
+	var l = lenth, scale = 0.5,objScale=0.8;
 	for(var x=0;x<l;x++){
 		for( var y=0;y<l;y++){
 			for(var z = 0; z<l;z++){
