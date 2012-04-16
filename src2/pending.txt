@@ -1,0 +1,5 @@
+Pending stuff TODO:
+2, grid draw with and without xyz axis
+4, get going with z ordering in edit mode
+5, intersection with planes
+5.5, optimization
