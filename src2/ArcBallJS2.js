@@ -1,5 +1,5 @@
 /**
- * @author Johannes Lindén / Uniq
+ * @author Johannes Lindén / Uniq <johannes.93.1337@gmail.com>
  */
 
 if(window){
@@ -8,23 +8,14 @@ if(window){
 	
 	//TOOLS:
 	if (window['Vector'] === undefined){
-		document.write('<script src="src2/worker_Classes.js" ></script>');
-		document.write('<script src="src2/Static_Prototypes.js" ></script>');
+		document.write(
+			'<script src="src2/worker_Classes.js" ></script>'+
+			'<script src="src2/Static_Prototypes.js" ></script>'
+		);
 	}
 	//Renderer:
 	if(window['Rendering'] === undefined|| typeof Rendering != 'object')
 		document.write('<script src="src2/renderer.js" ></script>');
-}
-else if(self.importScripts){	// if webworker form
-	importScripts('http://dl.dropbox.com/u/8057785/blenderHTML/js/themesSource.js');			//THEME
-	importScripts('src2/worker_Classes.js');		//TOOLS
-	importScripts('src2/Static_Prototypes.js');		//Static TOOLS
-	innerWidth=600;
-	innerHeight=600;
-	self.addEventListener('message',function(e){
-		if(e.data.indexOf('load')!=-1)
-			load(e.data);
-	});
 }
 
 //Arc - Ball
@@ -42,12 +33,9 @@ var canvas,context;
 var scene,camera,renderer;
 function load(e){
 
-	if(self['window']){
-		canvas=document.getElementById('View')||0;
-		can = document.getElementById("test");
-	}
-	else
-		canvas = postMessage("");
+	canvas=document.getElementById('View')||0;
+	can = document.getElementById("test");
+
 	context=(canvas?canvas.getContext('2d'):new Canvas());
 	cantext=(can?can.getContext('2d'):new Canvas());
 	
@@ -79,9 +67,9 @@ function load(e){
 	can.height = canvas.height=innerHeight;
 
 	prop=document.getElementById('props');
-	width = canvas.width -( prop&&prop.style.display == "block"?prop.offsetWidth:0 );
-	context.translate(canvas.width/2 -( prop&&prop.style.display == "block"?prop.offsetWidth/2:0 ),canvas.height/2);
-	cantext.translate(can.width/2 -( prop&&prop.style.display == "block"?prop.offsetWidth/2:0 ),can.height/2);
+	width = canvas.width;
+	context.translate(canvas.width/2,canvas.height/2);
+	cantext.translate(can.width/2,can.height/2);
 	camera.quaternion = current_quaternion;
 	render();
 
@@ -148,7 +136,7 @@ var HAS_DRAGED = false;
  var active_vertices = [];
 
 
- var lenth = 3;
+ var lenth = 3, count = 0, prevIndex = -1;
 
 /*=========================== ACTIONS =======================================================================*/
 /**
@@ -223,7 +211,7 @@ function mouseDragged(mouse){
 		}
 	}
 	else{
-		var v = new Vector(mouse.clientX - canvas.width/2 -( prop&&prop.style.display == "block"?prop.offsetWidth/2:0 ),mouse.clientY - canvas.height/2,500);
+		var v = new Vector(mouse.clientX - canvas.width/2,mouse.clientY - canvas.height/2,500);
 		
 		for( var i in scene.objects )
 			if(!scene.objects[i].activeObject)
@@ -257,6 +245,11 @@ function mouseReleased(mouse){
 			scene.objects[i].fillCol = col;
 		}
 		v_select(v,true);
+		for( var i in scene.objects )
+			if(!scene.objects[i].activeObject)
+				scene.objects[i].fillCol = col;
+			else
+				scene.objects[i].fillCol = selCol;
 		render();
 	}
 	else if(GRAB_FLAG){
@@ -357,7 +350,7 @@ function init(){
 							//objt[i] = new Cube(0,0,0,300,col,new color(255));
 						}
 
-					if( x==0 && y == 0 && z == 0){
+					if( Math.random() > 0.5){
 						objt.activeObject = true;
 						objt.fillCol = selCol;
 					}
@@ -466,7 +459,11 @@ function v_select(){
 		}
 
 		// ### END CALC RELATIVE POSITION END ###
-
+		if(arg && prevIndex != v){
+			count++;
+			document.querySelector("#movements").innerHTML = count;
+			prevIndex = v;
+		}
 	}
 }
 

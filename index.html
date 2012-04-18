@@ -8,21 +8,6 @@
 <script src="src2/ArcBallJS2.js" ></script>
 
 <script type="text/javascript">
-
-function implementations(){
-	if( arguments[0] == "begin" ){
-		
-	}
-	if( arguments[0] == "startload" ){
-		
-	}
-	if( arguments[0] == "onload" ){
-		
-	}
-	if( arguments[0] == "enload" ){
-		
-	}
-}
 /************ --    Keypad   -- ***********/
 /************ --  EventKeys  -- ***********/
 //           55  104  57
@@ -59,7 +44,6 @@ function implementations(){
 
 
 	onload = function(){
-		implementations("begin");
 		can=document.querySelector("#test");
 		ct2=can.getContext("2d");
 		ct2.translate(innerWidth/2,innerHeight/2);
@@ -70,70 +54,8 @@ function implementations(){
 		can.height=innerHeight;
 		can.style.zIndex="1";
 		can.style.background="rgba(255,255,255,0)";
-		//can.style.background="#fff";
-		var dropZone=can;
-		drop(dropZone, function(fileData) {
-			//fileData = objekt med filens information
-			if (fileData.type.indexOf('image') != -1){
-				var element = document.createElement('img');
-				element.src = fileData.read;
-
-			} else {
-				var element = document.createElement('code');
-				try{
-					var worker = new Worker("worker.js");
-					worker.onmessage = function(event){
-						/*for( var i in event.data){
-							if(typeof event.data[i] == 'object'){
-								element.innerHTML += "{<br/>";
-								for(var j in event.data[i])
-									element.innerHTML += j + " = "+ event.data[i][j] + ", ";
-								element.innerHTML += "<br/>}<br/>";
-							}
-							else
-								element.innerHTML += i + " = " + event.data[i] + "<br/>";
-						}*/
-						var obj = event.data;
-						var Faces = [];
-
-						var Face_indices = obj[2];
-						var vertices= obj[0];
-						var count_face = Face_indices[0].length;
-						var count_faces = Face_indices.length;
-
-						for(var i=0;i<vertices.length;i++){
-							vertices[i].position = new Vector(vertices[i].position).mult(100);
-						}
-						for(var i=0;i<count_faces;i++){
-							var ver = [];
-							
-							for(var j=0;j<count_face;j++){
-								ver.push(vertices[Face_indices[i][j]]);
-							}
-							Faces.push(new Face(ver));
-						}
-						var obj3D = new Object3D();
-						obj3D.position = new Vector();
-						obj3D.fillCol = new color(255,1,1);
-						obj3D.id = "Object3D." + fileData.name;
-						obj3D.Faces = Faces;
-						obj3D.constructor = obj3D;
-						for(var i=0;i<scene.objects.length;i++)
-							scene.objects[i].Faces = obj3D.Faces;
-					};
-					worker.postMessage(fileData.read);
-
-					
-				}catch(e){
-					console.dir(e);
-				};
-				render();
-			}
-			dropZone.appendChild(element);
-		});
-		implementations("startload");
+		
 		load();
-		implementations("onload");
 
 		if (window.addEventListener) { //IE9 - Other
 			can.addEventListener ("mouseup", mouseReleased, true);
@@ -152,16 +74,8 @@ function implementations(){
 			if(String.fromCharCode(e.keyCode)=='I'&&(e.ctrlKey||e.metaKey)){document.querySelector('#dialog').parentNode.toggle();return false;}
 			return true;
 		};
-		implementations("enload");
 	};
 
-	function styleObject (obj,rule) {
-		var styleTag = document.getElementById("styleObjects");
-		var sheet = styleTag['sheet'] ? styleTag.sheet : styleTag.styleSheet;
-		
-		if (sheet['insertRule']) //IE9 - Other
-			sheet.insertRule (obj+'{'+rule+'}', 0);
-	}
 	window.onerror=function(msg, url, lineNo){
 		function disable(){
 			if (can.removeEventListener&&window['mouseReleased']) {   // all browsers except IE before version 9
@@ -190,14 +104,6 @@ function implementations(){
 	};
 	var easeOut=function (C){return 1-B(1-C,A);};
 
-	function setInteractor(type){
-		if(type=='scroll-wheel')
-			typeInter=1;
-		else if(type=='left-mouse')
-			typeInter=0;
-		else if(type=='right-mouse')
-			typeInter=2;
-	}
 </script>
 <style type="text/css">
 	body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 0px;overflow:hidden;}
@@ -243,29 +149,36 @@ function implementations(){
 		-o-transition:all 1s ease-in-out;
 		-ms-transition:all 1s ease-in-out;
 	}
-</style>
-<style id="styleObjects" >
+	#movements{
+		position: absolute;
+		top:0;
+		left:0;
+		width:100%;
+		text-align:center;
+		font-family: Arial, "MS Trebuchet", sans-serif;
+		font-size: 20pt;
+	}
 </style>
 <script type="text/javascript" language="Javascript">
 function scrolltop(){scroll(0,0);}
 </script>
 </head>
 <body onresize="load();" >
-<div id="drop-zone" style="pointer-events:none;z-index:10;position:absolute;top:0px;left:0px;width:100%;height:100%;" ></div>
-<div style="height:100%;width:100%;overflow:hidden;">
-	<div id="error" style="position:absolute;z-index:1000;color:#fff;bottom:10px;left:0px;width:auto;text-align:center;display:none;background:#444;" >
-		<a href="javascript:void(0);" onclick="this.parentNode.display='none';return false;" >(hide)</a>
-		<p>
-		<!-- ## this is an example how it may look like: ##
-		<p><span class="ui-state-error ui-corner-all" style="margin:10px;padding:100px;padding-top:20px;padding-bottom:10px;">
-			<span style="font-size:15pt;color:#ffcccc;" >Error:</span>
-			<span> Here goes the message</span>. <a href="javascript:location=location.href;" >Reload</a> the page to try again.
-		</span></p>
-		-->
-		</p>
+	<div id="movements">0</div>
+	<div style="height:100%;width:100%;overflow:hidden;">
+		<div id="error" style="position:absolute;z-index:1000;color:#fff;bottom:10px;left:0px;width:auto;text-align:center;display:none;background:#444;" >
+			<a href="javascript:void(0);" onclick="this.parentNode.display='none';return false;" >(hide)</a>
+			<p>
+			<!-- ## this is an example how it may look like: ##
+			<p><span class="ui-state-error ui-corner-all" style="margin:10px;padding:100px;padding-top:20px;padding-bottom:10px;">
+				<span style="font-size:15pt;color:#ffcccc;" >Error:</span>
+				<span> Here goes the message</span>. <a href="javascript:location=location.href;" >Reload</a> the page to try again.
+			</span></p>
+			-->
+			</p>
+		</div>
+		<canvas id="test" onselectstart="return false;" ></canvas>	
+		<canvas id="View"></canvas>	
 	</div>
-	<canvas id="test" onselectstart="return false;" ></canvas>	
-	<canvas id="View"></canvas>	
-</div>
 </body>
 </html>
