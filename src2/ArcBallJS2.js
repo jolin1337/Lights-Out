@@ -340,15 +340,8 @@ function init(){
 						objt = new Test(0,0,0, col ,new color(255));
 					else if(s=="BeizerCurve")
 						objt = new BeizerCurve(0,0,0);
-					else 
-						try{
-							if ( s != "" )
-								objt = eval(s.replace(/%20/gi," "));
-							else return;//throw new Error("ERRROR!");
-						}
-						catch(e){
-							//objt[i] = new Cube(0,0,0,300,col,new color(255));
-						}
+					else
+						objt = new Cube(0,0,0,100*scale*objScale,col, new color(255));
 
 					if( Math.random() > 0.5){
 						objt.activeObject = true;

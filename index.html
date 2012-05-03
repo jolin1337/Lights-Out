@@ -107,57 +107,96 @@
 </script>
 <style type="text/css">
 	body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 0px;overflow:hidden;}
-	#joystick{
-	}
 
 	#props{
-		position:absolute;
-		top:0px;
-		right:0px;
-		background:rgba(50,50,50,0.8);
-		width:290px;
-		height:90%; /*#calc(100% - 55px);*/
-		padding:50px 5px 5px 10px;
-		overflow-y:auto;
-		overflow-x:hidden;
-		z-index:100;
-		display:none;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		background: rgba(50,50,50,0.8);
+		width: 290px;
+		height: 90%; /*#calc(100% - 55px);*/
+		padding: 50px 5px 5px 10px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		z-index: 100;
+		display: none;
 	}
 		#props h1{
-			font-size:18pt;
-			color:#fff;
+			font-size: 18pt;
+			color: #fff;
 		}
 		#props .containter{
-			margin-left:20px;
-			padding:0 20px 0 20px;
-			background:rgba(20,20,20,0.5);
-			border:1px solid #997;
-			border-radius:5px;
-			color:#f88;
+			margin-left: 20px;
+			padding: 0 20px 0 20px;
+			background: rgba(20,20,20,0.5);
+			border: 1px solid #997;
+			border-radius: 5px;
+			color: #f88;
 		}
 			#props .containter input{
-				border-radius:2px;
-				border:0px;
-				background:#333;
-				margin-bottom:9px;
-				color:#fff;
+				border-radius: 2px;
+				border: 0px;
+				background: #333;
+				margin-bottom: 9px;
+				color: #fff;
 			}
 	#error p{
 		visibility: visible;
-		-webkit-transition:all 1s ease-in-out;
-		-moz-transition:all 10s ease-in-out;
-		-o-transition:all 1s ease-in-out;
-		-ms-transition:all 1s ease-in-out;
+		-webkit-transition: all 1s ease-in-out;
+		-moz-transition: all 10s ease-in-out;
+		-o-transition: all 1s ease-in-out;
+		-ms-transition: all 1s ease-in-out;
 	}
 	#movements{
 		position: absolute;
-		top:0;
-		left:0;
-		width:100%;
-		text-align:center;
+		top: 0;
+		left: 0;
+		width: 100%;
+		text-align: center;
 		font-family: Arial, "MS Trebuchet", sans-serif;
 		font-size: 20pt;
 	}
+
+	#expl h1{
+		color: #fff;
+		font-weight: normal;
+		display: block;
+		border-bottom: 1px solid #eee;
+		margin-right: 30%;
+	}
+
+	#expl {
+		position: absolute;
+		top: 25px;
+		z-index: 9;
+		width: 100%;
+	}
+	#cont{
+		margin: 20px;
+		padding: 10px 20px;
+		background-color: rgba(0,0,0,0.7);
+		border-radius: 10px;
+		color: #eee;
+	}
+		#cont .row{
+			border-right: 1px solid #eee;
+		}
+		#cont .col{
+			border-left: 0px solid #999;
+		}
+		#cont div{
+			font-size: 8pt;
+
+			padding: 0 0 10px 10px;
+			width: 30%;
+			min-width: 200px;
+			display: inline-block;
+			vertical-align: top;
+		}
+		table{
+			font-size: 8pt;
+			color: #eee;
+		}
 </style>
 <script type="text/javascript" language="Javascript">
 function scrolltop(){scroll(0,0);}
@@ -181,5 +220,35 @@ function scrolltop(){scroll(0,0);}
 		<canvas id="View"></canvas>	
 	</div>
 	<div style="position:absolute;bottom:5px;right:10px;z-index:9999999;" >Source code at <a href="https://github.com/jolin1337/Lights-Out">Github</a></div>
+	<div id="expl" onclick="this.style.display='none';">
+		<div id="cont" >
+			<div class="row">
+				<h1>Instruktioner</h1>
+				<img src="./images/random.png" width=90% >
+				<table>
+					<tr>
+						<td>
+							Rotera med hjälp av 				
+						</td>
+						<td><b>LMB</b></td>
+					</tr>
+					<tr>
+						<td>
+							Sätt på/Stäng av lampor i ett korsformat tecken	
+						</td>
+						<td><b>RMB</b></td>
+					</tr>
+				</table>
+			</div>
+			<div class="row col">
+				<h1>Mål</h1>
+				För att vinna så ska du stänga av alla lampor på så lite drag som möjligt. Kan då slå datorn?
+			</div>
+			<div class="col">
+				<h1>Johannes Lindén</h1>
+				hdjsahdkjas
+			</div>
+		</div>
+	</div>
 </body>
 </html>
